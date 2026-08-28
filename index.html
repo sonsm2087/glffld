@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>별 잡기</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      color: #f8fafc;
+      font-family: system-ui, sans-serif;
+      background: radial-gradient(circle at top, #312e81, #09090b 70%);
+    }
+    main { width: min(92vw, 520px); text-align: center; }
+    h1 { margin-bottom: 8px; }
+    .stats { display: flex; justify-content: center; gap: 24px; margin: 16px 0; }
+    #game {
+      position: relative;
+      height: 360px;
+      overflow: hidden;
+      border: 2px solid #818cf8;
+      border-radius: 20px;
+      background: rgba(15, 23, 42, .82);
+      box-shadow: 0 24px 70px rgba(0, 0, 0, .45);
+    }
+    #star {
+      position: absolute;
+      width: 62px;
+      height: 62px;
+      padding: 0;
+      border: 0;
+      font-size: 46px;
+      line-height: 1;
+      cursor: pointer;
+      background: transparent;
+      filter: drop-shadow(0 0 12px #fde047);
+      transition: transform .08s ease;
+    }
+    #star:active { transform: scale(.82); }
+    #start {
+      margin-top: 18px;
+      padding: 12px 24px;
+      border: 0;
+      border-radius: 999px;
+      color: #111827;
+      font-weight: 800;
+      cursor: pointer;
+      background: #fde047;
+    }
+    #message { min-height: 24px; color: #c7d2fe; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>⭐ 별 잡기</h1>
+    <p>10초 동안 움직이는 별을 최대한 많이 눌러보세요!</p>
+    <div class="stats"><b>점수: <span id="score">0</span></b><b>남은 시간: <span id="time">10</span>초</b></div>
+    <div id="game"><button id="star" aria-label="별 잡기" hidden>⭐</button></div>
+    <button id="start">게임 시작</button>
+    <p id="message">시작 버튼을 눌러주세요.</p>
+  </main>
+  <script>
+    const game = document.querySelector('#game');
+    const star = document.querySelector('#star');
+    const start = document.querySelector('#start');
+    const scoreText = document.querySelector('#score');
+    const timeText = document.querySelector('#time');
+    const message = document.querySelector('#message');
+    let score = 0, time = 10, timer;
+
+    function moveStar() {
+      const x = Math.random() * (game.clientWidth - star.offsetWidth);
+      const y = Math.random() * (game.clientHeight - star.offsetHeight);
+      star.style.left = `${x}px`;
+      star.style.top = `${y}px`;
+    }
+
+    star.addEventListener('click', () => {
+      score += 1;
+      scoreText.textContent = score;
+      moveStar();
+    });
+
+    start.addEventListener('click', () => {
+      clearInterval(timer);
+      score = 0;
+      time = 10;
+      scoreText.textContent = score;
+      timeText.textContent = time;
+      message.textContent = '별을 잡으세요!';
+      start.disabled = true;
+      star.hidden = false;
+      moveStar();
+      timer = setInterval(() => {
+        time -= 1;
+        timeText.textContent = time;
+        if (time === 0) {
+          clearInterval(timer);
+          star.hidden = true;
+          start.disabled = false;
+          start.textContent = '다시 하기';
+          message.textContent = `게임 끝! 최종 점수는 ${score}점입니다.`;
+        }
+      }, 1000);
+    });
+  </script>
+</body>
+</html>
