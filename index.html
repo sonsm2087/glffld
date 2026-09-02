@@ -2,42 +2,25 @@
 <html lang="ko">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#7bc7c7">
-  <title>포근섬</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#67b8c2">
+  <title>포근섬 — 깨어나는 섬</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <main id="app">
-    <canvas id="game" width="960" height="600" aria-label="포근섬 게임 화면"></canvas>
-
-    <header class="hud glass">
-      <div><span class="sun">☀</span><strong id="time">오전 8:20</strong></div>
-      <div class="weather">맑음 · 산들바람</div>
-    </header>
-
-    <aside class="seed-pill glass" aria-live="polite">
-      <span class="seed-icon">✦</span>
-      <div><small>데이지 씨앗</small><strong id="seed-count">0</strong></div>
-    </aside>
-
-    <section id="welcome" class="welcome glass">
-      <p>이 작은 섬은 이제 당신의 공간입니다.</p>
-      <button id="begin">천천히 둘러보기</button>
-    </section>
-
+    <canvas id="game" aria-label="포근섬 게임 화면"></canvas>
+    <header class="hud glass"><div class="clock"><span id="sky-icon">☀</span><strong id="time">오전 8:20</strong></div><span id="weather">맑음 · 산들바람</span></header>
+    <section class="goal glass"><span class="eyebrow">지금 해볼 일</span><strong id="goal-title">반짝이는 씨앗 찾기</strong><small id="goal-detail">집 앞 풀밭을 살펴보세요</small><div class="progress"><i id="goal-progress"></i></div></section>
+    <aside class="inventory glass" aria-label="가방"><span title="씨앗">✦ <b id="seeds">0</b></span><span title="나뭇가지">⌇ <b id="wood">0</b></span><span title="돌">◆ <b id="stone">0</b></span><span title="물고기">◈ <b id="fish">0</b></span></aside>
+    <section id="intro" class="dialog glass"><span class="eyebrow">오래 잠든 섬</span><p>이 섬은 오랫동안 아무도 돌보지 않았습니다.</p><small>하지만 바람은 아직 무언가를 기다리고 있어요.</small><button id="begin">섬에서 일어나기</button></section>
+    <section id="craft" class="panel glass hidden"><button class="close" aria-label="닫기">×</button><span class="eyebrow">손으로 만드는 것</span><h2>작은 벤치</h2><p>잠시 앉아 섬의 소리를 들을 수 있어요.</p><div class="cost">⌇ 나무 5 &nbsp; ◆ 돌 3</div><button id="craft-bench">벤치 만들기</button></section>
+    <div id="discovery" class="discovery"><span>새로운 발견</span><strong></strong><small></small></div>
     <div id="toast" class="toast glass" aria-live="polite"></div>
-    <div id="hint" class="hint glass"><kbd>WASD</kbd> 이동 · <kbd>Shift</kbd> 달리기 · <kbd>E</kbd> 행동</div>
-
-    <nav class="touch-controls" aria-label="터치 조작">
-      <div class="dpad">
-        <button data-key="ArrowUp" aria-label="위">▲</button>
-        <button data-key="ArrowLeft" aria-label="왼쪽">◀</button>
-        <button data-key="ArrowDown" aria-label="아래">▼</button>
-        <button data-key="ArrowRight" aria-label="오른쪽">▶</button>
-      </div>
-      <button id="action" class="action">E<small>행동</small></button>
-    </nav>
+    <div id="context" class="context glass"><kbd>E</kbd><span>살펴보기</span></div>
+    <div class="controls glass"><kbd>WASD</kbd> 이동 <b>·</b> <kbd>Shift</kbd> 달리기 <b>·</b> <kbd>E</kbd> 행동</div>
+    <nav class="touch" aria-label="터치 조작"><div class="dpad"><button data-key="ArrowUp">▲</button><button data-key="ArrowLeft">◀</button><button data-key="ArrowDown">▼</button><button data-key="ArrowRight">▶</button></div><button id="action">E<small>행동</small></button></nav>
+    <div id="vignette"></div>
   </main>
   <script type="module" src="game.js"></script>
 </body>
